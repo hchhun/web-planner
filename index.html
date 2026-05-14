@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" href="tabicon.png">
+    <title>Eisenhower's Planner</title>
+</head>
+<body>
+    <div id="sideWidget">
+        <h1>Hello</h1>
+        <h1>Linda</h1>
+    </div>
+    <table id="taskContainer">
+        <tr>
+            <td id="doContainer">
+                <div class="taskHeader">
+                    <h1>Do</h1>
+                    <button id="doPlus" class="iconBtn"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                <div id="doTaskContainer">
+                </div>
+            </td>
+            <td id="scheduleContainer">
+                <h1>Schedule</h1>
+                <div id="scheduleTaskContainer">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td id="delegateContainer">
+                <h1>Delegate</h1>
+            </td>
+            <td id="deleteContainer">
+                <h1>Delete</h1>
+            </td>
+        </tr>
+    </table>
+    <form id="taskForm">
+        <h1>Your task</h1>
+        <label for="priority">Priority: </label>
+        <select id="priority" name="priority">
+            <option value="do">Do</option>
+            <option value="schedule">Schedule</option>
+            <option value="delegate">Delegate</option>
+            <option value="delete">Delete</option>
+        </select>
+        <br>
+        <label for="date">Due date: </label>
+        <input id="date" name="date" type="date">
+        <br>
+        <input id="title" name="title" placeholder="Task">
+        <br>
+        <textarea id="desc" name ="desc" placeholder="Description"></textarea>
+        <div class="btnContainer">
+            <button id="saveBtn">Save</button>
+            <button id="cancelBtn" type="reset">Cancel</button>
+        </div>
+    </form>
+</body>
+<script src="index.js"></script>
+</html>

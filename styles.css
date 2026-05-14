@@ -1,0 +1,79 @@
+body{
+    display: flex;
+    background-color: rgb(195, 195, 195);
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif */
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.taskHeader{
+    display: flex;
+}
+
+td{
+    padding: 10px;
+    border: 2px solid black;
+    
+}
+
+#sideWidget{
+    background-color: rgb(24, 33, 74);
+    padding: 10px;
+}
+
+.task {
+    padding: 5px;
+    border-radius: 3px;
+}
+
+
+.completed {
+    color: grey;
+    text-decoration: line-through;
+}
+
+.doTask{
+    background-color: rgb(213, 184, 147);
+}
+.doTask:hover{
+    background-color: rgb(200, 170, 131);
+}
+
+.scheduleTask{
+    background-color: rgb(99, 137, 177);
+}
+
+.delegateTask{
+    background-color: rgb(37, 52, 79);
+}
+
+.deleteTask{
+    background-color: rgb(99, 32, 36);
+}
+
+.iconBtn {
+    border: none;
+    background: none;
+}
+
+.taskDesc {
+    padding:10px;
+    background-color: cadetblue;
+    
+}
+
+.iconBtn:hover {
+    cursor: pointer;
+}
+
+.taskFront:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#taskForm {
+    background-color: white;
+    
+}
