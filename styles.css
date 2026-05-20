@@ -16,8 +16,7 @@ body{
 }
 
 .category {
-    padding: 10px 35px 20px 35px;
-    border: 1px solid white;
+    padding: 10px 35px 35px 80px;
     font-weight: bold;
 }
 
@@ -27,10 +26,10 @@ body{
     gap: 12px;
     overflow-y: scroll;
     padding-right: 35px;
+    transition: transform 0.3 ease;
+    will-change: transform, opacity;
     
 }
-
-
 
 
 #doContainer {
@@ -45,6 +44,9 @@ body{
 }
 #doTaskContainer .iconBtn{
     color: rgb(22 97 146);
+}
+#doTaskContainer .completed{
+    color: rgb(135, 161, 177);
 }
 
 
@@ -68,40 +70,55 @@ body{
 }
 
 #sideWidget{
-    background-color: rgb(24, 33, 74);
-    padding: 10px;
+    background-image: linear-gradient(to right, rgb(197 202 212), rgb(107 136 203));
+    flex-grow: 1;
+    padding: 15px 30px 15px 30px;
 }
+
+/* @keyframes hoverTask {
+    100% {transform: translateX(10px);}
+} */
 
 .task {
     display: flex;
     align-items: center;
     justify-content:space-between;
-    padding: 10px 5px 10px 5px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 7px;
+    transition: transform .5s ease, opacity 0.3s ease;
 }
+.task:hover{
+    cursor: pointer;
+    transform: translateX(10px);
+}
+
 .task .date {
     font-weight: normal;
     font-size: 11px;
     background-color: rgb(144 185 212);
-    /* padding: 2px 7px 2px 7px; */
+    padding: 2px 7px 2px 7px;
     border-radius: 6px;
 }
-
 .taskLeft {
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
+}
+
+.task.shrink {
+    transform: scale(0.8);
+    opacity: 0;
 }
 
 .taskText {
     display: flex;
     flex-direction: column;
     margin-right: auto;
+    gap:2px;
 }
 
 
 .completed {
-    color: grey;
     text-decoration: line-through;
 }
 
@@ -111,7 +128,6 @@ body{
 
 span {
     margin-right: auto;
-    padding-left: 15px;
 }
 
 .scheduleTask {

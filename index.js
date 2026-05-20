@@ -44,22 +44,22 @@ function updatePage() {
     let doInner = '';
     doList.forEach((taskElement, taskIndex) => {
         if (taskElement.completed == true) {
-            doInner += `<div class="task doTask completed">
+            doInner += `<div class="completed task doTask" onclick="openTask('doList', ${taskIndex})">
                             <div class="taskLeft">
-                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
+                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
         else {
-            doInner += `<div class="task doTask">
+            doInner += `<div class="task doTask" onclick="openTask('doList', ${taskIndex})">
                             <div class="taskLeft">
-                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
+                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
 
-        doInner += `<div class="taskText" onclick="openTask('doList', ${taskIndex})">
+        doInner += `<div class="taskText">
                         <span>${taskElement["title"]}</span>`
 
         if (taskElement.date != "") {doInner += `<span class="date">${taskElement.date}</span>`;}
                         
         doInner += `</div>
                     </div>
-                    <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>
+                    <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
                     </div>` 
     });
     doTaskContainer.innerHTML = doInner;
@@ -93,28 +93,37 @@ function openTask(list, index) {
     editing["index"] = index;
 }
 
-function checkTask(list, index) {
+function checkTask(list, index, event) {
+    event.stopPropagation();
+
     let temp = JSON.parse(localStorage.getItem(list));
     if (JSON.parse(temp[index].completed) == false) {temp[index].completed = true;}
     else {temp[index].completed = false;}
 
-    localStorage.setItem(list, JSON.stringify(temp));
+    
+    localStorage.setItem(list, JSON.stringify(temp));    
     updatePage();
 }
 
-function deleteTask(list, index) {
-    let temp = JSON.parse(localStorage.getItem(list));
-    temp = temp.filter((taskElement, taskIndex) => {
-        if (taskIndex === index) {return false;}
-        return true;})
+function deleteTask(list, index, event) {
+    event.stopPropagation();
 
-    localStorage.setItem(list, JSON.stringify(temp));
-    updatePage();
+    let task = event.target.closest(".task");
+    task.classList.add("shrink");
+
+    setTimeout(() => {
+        let temp = JSON.parse(localStorage.getItem(list));
+        temp = temp.filter((taskElement, taskIndex) => {
+            if (taskIndex === index) {return false;}
+            return true;})
+        localStorage.setItem(list, JSON.stringify(temp));
+        updatePage();
+        }, 400);
 }
 
 
-function addTask(e) {
-    e.preventDefault(); // stops page refresh after form is submitted 
+function addTask(event) {
+    event.preventDefault(); // stops page refresh after form is submitted 
     
     let form = new FormData(taskForm); // takes form entries as array of value pairs
     form.append("completed", false);
@@ -127,7 +136,7 @@ function addTask(e) {
 
         if (temp[index].priority != data.priority) {
             editing = null;
-            addTask(e);
+            addTask(event);
             deleteTask(list, index);
         }
         else {
