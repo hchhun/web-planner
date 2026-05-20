@@ -5,39 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="icon" href="tabicon.png">
-    <title>Eisenhower's Planner</title>
+    <link rel="icon" href="graphics/tabicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <title>Planner</title>
 </head>
 <body>
     <div id="sideWidget">
         <h1>Hello</h1>
         <h1>Linda</h1>
     </div>
-    <table id="taskContainer">
-        <tr>
-            <td id="doContainer">
-                <div class="taskHeader">
-                    <h1>Do</h1>
-                    <button id="doPlus" class="iconBtn"><i class="fa-solid fa-plus"></i></button>
-                </div>
-                <div id="doTaskContainer">
-                </div>
-            </td>
-            <td id="scheduleContainer">
-                <h1>Schedule</h1>
-                <div id="scheduleTaskContainer">
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td id="delegateContainer">
-                <h1>Delegate</h1>
-            </td>
-            <td id="deleteContainer">
-                <h1>Delete</h1>
-            </td>
-        </tr>
-    </table>
+    <div id="matrix">
+        <div id="doContainer" class="category">
+            <h1>Do</h1>
+            <div id="doTaskContainer" class="taskContainer"></div>
+        </div>
+        <div id="scheduleContainer" class="category">
+            <h1>Schedule</h1>
+            <div id="scheduleTaskContainer" class="taskContainer"></div>
+        </div>
+        <div id="delegateContainer" class="category">
+            <h1>Delegate</h1>
+            <div id="delegateTaskContainer" class="taskContainer"></div>
+        </div>
+        <div id="deleteContainer" class="category">
+            <h1>Delete</h1>
+            <div id="deleteTaskContainer" class="taskContainer"></div>
+        </div>
+    </div>
     <form id="taskForm">
         <h1>Your task</h1>
         <label for="priority">Priority: </label>

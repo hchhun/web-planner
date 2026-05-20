@@ -45,19 +45,22 @@ function updatePage() {
     doList.forEach((taskElement, taskIndex) => {
         if (taskElement.completed == true) {
             doInner += `<div class="task doTask completed">
-                            <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
+                            <div class="taskLeft">
+                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
         else {
             doInner += `<div class="task doTask">
-                            <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
+                            <div class="taskLeft">
+                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
 
-        doInner += `    <span class="taskFront" onclick="openTask('doList', ${taskIndex})">${taskElement["title"]}</span>
-                        <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>`
+        doInner += `<div class="taskText" onclick="openTask('doList', ${taskIndex})">
+                        <span>${taskElement["title"]}</span>`
 
-        if (taskElement.date != "") {
-            doInner += `<br><small class="test">${taskElement.date}</small>`
-        }
-
-        doInner += `</div>`
+        if (taskElement.date != "") {doInner += `<span class="date">${taskElement.date}</span>`;}
+                        
+        doInner += `</div>
+                    </div>
+                    <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>` 
     });
     doTaskContainer.innerHTML = doInner;
 

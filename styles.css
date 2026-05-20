@@ -1,21 +1,70 @@
 body{
     display: flex;
-    background-color: rgb(195, 195, 195);
-    /* font-family: Verdana, Geneva, Tahoma, sans-serif */
+    margin: 0;
+    background-color: rgb(39, 39, 39);
+    font-family: "Figtree", sans-serif;
 }
 
-table {
-    border-collapse: collapse;
+#matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 7px;
+    width: 75vw;
+    height: 98vh;
+    margin-left: auto;
 }
 
-.taskHeader{
+.category {
+    padding: 10px 35px 20px 35px;
+    border: 1px solid white;
+    font-weight: bold;
+}
+
+.taskContainer {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: scroll;
+    padding-right: 35px;
+    
 }
 
-td{
-    padding: 10px;
-    border: 2px solid black;
-    
+
+
+
+#doContainer {
+    color: rgb(188 208 221);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+#doTaskContainer .task{
+    background-color: rgb(188 208 221);
+    color: rgb(22 97 146);
+}
+#doTaskContainer .iconBtn{
+    color: rgb(22 97 146);
+}
+
+
+
+#scheduleContainer {
+    /* border: 3px solid rgb(233 167 82); */
+    color: rgb(233 167 82);
+    /* background-color: rgb(242, 226, 195); */
+}
+
+#delegateContainer {
+    /* border: 3px solid rgb(113 150 135); */
+    color: rgb(113 150 135);
+    /* background-color: rgb(191, 212, 204); */
+}
+
+#deleteContainer {
+    /* border: 3px solid rgb(212 96 77); */
+    color: rgb(212 96 77);
+    /* background-color: rgb(234, 201, 196); */
 }
 
 #sideWidget{
@@ -24,8 +73,30 @@ td{
 }
 
 .task {
-    padding: 5px;
-    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    padding: 10px 5px 10px 5px;
+    border-radius: 5px;
+}
+.task .date {
+    font-weight: normal;
+    font-size: 11px;
+    background-color: rgb(144 185 212);
+    /* padding: 2px 7px 2px 7px; */
+    border-radius: 6px;
+}
+
+.taskLeft {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.taskText {
+    display: flex;
+    flex-direction: column;
+    margin-right: auto;
 }
 
 
@@ -34,28 +105,31 @@ td{
     text-decoration: line-through;
 }
 
-.doTask{
-    background-color: rgb(213, 184, 147);
-}
-.doTask:hover{
-    background-color: rgb(200, 170, 131);
+.doTask button {
+    color: rgb(9, 67, 160); 
 }
 
-.scheduleTask{
+span {
+    margin-right: auto;
+    padding-left: 15px;
+}
+
+.scheduleTask {
     background-color: rgb(99, 137, 177);
 }
 
-.delegateTask{
+.delegateTask {
     background-color: rgb(37, 52, 79);
 }
 
-.deleteTask{
+.deleteTask {
     background-color: rgb(99, 32, 36);
 }
 
 .iconBtn {
-    border: none;
+    font-size: 20px;
     background: none;
+    border: none;
 }
 
 .taskDesc {
@@ -75,5 +149,14 @@ td{
 
 #taskForm {
     background-color: white;
+    position: fixed;
     
+}
+
+.date {
+    font-size: 75%;
+}
+
+.taskWidget {
+    padding: 0px;
 }
