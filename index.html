@@ -15,6 +15,7 @@
     <div id="sideWidget">
         <h1>Hello</h1>
         <h1>Linda</h1>
+        <button id="openBtn">+ New task</button>
     </div>
     <div id="matrix">
         <div id="doContainer" class="category">
@@ -34,27 +35,36 @@
             <div id="deleteTaskContainer" class="taskContainer"></div>
         </div>
     </div>
-    <form id="taskForm">
-        <h1>Your task</h1>
-        <label for="priority">Priority: </label>
-        <select id="priority" name="priority">
-            <option value="do">Do</option>
-            <option value="schedule">Schedule</option>
-            <option value="delegate">Delegate</option>
-            <option value="delete">Delete</option>
-        </select>
-        <br>
-        <label for="date">Due date: </label>
-        <input id="date" name="date" type="date">
-        <br>
-        <input id="title" name="title" placeholder="Task">
-        <br>
-        <textarea id="desc" name ="desc" placeholder="Description"></textarea>
-        <div class="btnContainer">
-            <button id="saveBtn">Save</button>
-            <button id="cancelBtn" type="reset">Cancel</button>
-        </div>
-    </form>
+    <div id="taskPopup">
+        <form id="taskForm">
+            <h1>Your task</h1>
+            <div id="selectContainer">
+                <div class="selects">
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority">
+                        <option value="do">Do</option>
+                        <option value="schedule">Schedule</option>
+                        <option value="delegate">Delegate</option>
+                        <option value="delete">Delete</option>
+                    </select>
+                </div>
+                <div class="selects">
+                    <label for="date">Due date</label>
+                    <input id="date" name="date" type="date">
+                </div>
+            </div>
+            <br>
+            <div id="inputContainer">
+                <input id="title" name="title" placeholder="Task">
+                <textarea id="desc" name ="desc" placeholder="Description"></textarea>
+            </div>
+            <br>
+            <div class="btnContainer">
+                <button id="saveBtn">Save</button>
+                <button id="cancelBtn" type="reset">Cancel</button>
+            </div>
+        </form>
+    </div>
 </body>
 <script src="index.js"></script>
 </html>

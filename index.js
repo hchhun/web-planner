@@ -8,6 +8,7 @@ const formDesc = document.getElementById("desc");
 
 const doTaskContainer = document.querySelector("#doTaskContainer");
 const scheduleTaskContainer = document.querySelector('#scheduleTaskContainer');
+const deleteTaskContainer = document.querySelector('#deleteTaskContainer');
 
 doList = [];
 scheduleList = [];
@@ -22,6 +23,7 @@ function initialLoad() {
     }
     if (!localStorage.getItem("scheduleList")) {
         localStorage.setItem("scheduleList", JSON.stringify(scheduleList));
+        scheduleTaskContainer.innerHTML = `<img src="graphics/coffeepixel.png">`;
     }
     if (!localStorage.getItem("delegateList")) {
         llocalStorage.setItem("delegateList", JSON.stringify(delegateList));
@@ -33,6 +35,13 @@ function initialLoad() {
 }
 initialLoad();
 
+// function checkEmpty() {
+//     if (scheduleList == []) {
+//         scheduleList.innerHTML = `<p1>hi</p1>`;
+//     }
+//     return;
+// }
+
 
 function updatePage() {
     // updates page with saved tasks if any, make into separate func?****
@@ -40,6 +49,8 @@ function updatePage() {
     scheduleList = JSON.parse(localStorage.getItem("scheduleList"));
     delegateList = JSON.parse(localStorage.getItem("delegateList"));
     deleteList = JSON.parse(localStorage.getItem("deleteList"));
+
+    // scheduleTaskContainer.innerHTML = `<p1>hi</p1>`;
 
     let doInner = '';
     doList.forEach((taskElement, taskIndex) => {
@@ -64,26 +75,31 @@ function updatePage() {
     });
     doTaskContainer.innerHTML = doInner;
 
+    if (scheduleList == "[]") {
+        scheduleTaskContainer.innerHTML = `<p1>No tasks</p1>`;
+    }
+    // else {
+    //     let scheduleInner = '';
+    //     scheduleList.forEach((taskElement, taskIndex) => {
+    //         if (taskElement.completed == true) {
+    //             scheduleInner += `<div class="task scheduleTask completed">
+    //                             <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
+    //         else {
+    //             scheduleInner += `<div class="task scheduleTask">
+    //                             <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
 
-    let scheduleInner = '';
-    scheduleList.forEach((taskElement, taskIndex) => {
-        if (taskElement.completed == true) {
-            scheduleInner += `<div class="task scheduleTask completed">
-                            <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
-        else {
-            scheduleInner += `<div class="task scheduleTask">
-                            <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
-
-        scheduleInner += `    <span class="taskFront" onclick="openTask('scheduleList', ${taskIndex})">${taskElement["title"]}</span>
-                        <button class="iconBtn" onclick="deleteTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>
-                    </div>`
-    });
-    scheduleTaskContainer.innerHTML = scheduleInner;
+    //         scheduleInner += `    <span class="taskFront" onclick="openTask('scheduleList', ${taskIndex})">${taskElement["title"]}</span>
+    //                         <button class="iconBtn" onclick="deleteTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>
+    //                     </div>`
+    //     });
+    //     scheduleTaskContainer.innerHTML = scheduleInner;
+        
+    // }
+    
 }
 
 function openTask(list, index) {
     let temp = JSON.parse(localStorage.getItem(list));
-    // if (temp[index].priority == "do") {alert("yes")} ;
     formPriority.value = temp[index].priority;
     formDate.value = temp[index].date;
     formTitle.value = temp[index].title;
@@ -91,6 +107,7 @@ function openTask(list, index) {
     editing = {}
     editing["list"] = list;
     editing["index"] = index;
+    taskPopup.classList.add("open");
 }
 
 function checkTask(list, index, event) {
@@ -100,7 +117,6 @@ function checkTask(list, index, event) {
     if (JSON.parse(temp[index].completed) == false) {temp[index].completed = true;}
     else {temp[index].completed = false;}
 
-    
     localStorage.setItem(list, JSON.stringify(temp));    
     updatePage();
 }
@@ -112,13 +128,22 @@ function deleteTask(list, index, event) {
     task.classList.add("shrink");
 
     setTimeout(() => {
-        let temp = JSON.parse(localStorage.getItem(list));
-        temp = temp.filter((taskElement, taskIndex) => {
-            if (taskIndex === index) {return false;}
-            return true;})
-        localStorage.setItem(list, JSON.stringify(temp));
-        updatePage();
+        // let temp = JSON.parse(localStorage.getItem(list));
+        // temp = temp.filter((taskElement, taskIndex) => {
+        //     if (taskIndex === index) {return false;}
+        //     return true;})
+        // localStorage.setItem(list, JSON.stringify(temp));
+        // updatePage();
+        deleteNoAnimation(list, index)
         }, 400);
+}
+function deleteNoAnimation(list, index) {
+    let temp = JSON.parse(localStorage.getItem(list));
+    temp = temp.filter((taskElement, taskIndex) => {
+    if (taskIndex === index) {return false;}
+        return true;})
+    localStorage.setItem(list, JSON.stringify(temp));
+    updatePage();
 }
 
 
@@ -137,9 +162,17 @@ function addTask(event) {
         if (temp[index].priority != data.priority) {
             editing = null;
             addTask(event);
-            deleteTask(list, index);
+            // deleteTask(list, index);
+            // let del = JSON.parse(localStorage.getItem(list));
+            deleteNoAnimation(list, index);
         }
         else {
+            if (data.title == "") {
+            formTitle.classList.add("blank");
+            formTitle.placeholder = "Please enter a task name";
+            return;
+            }
+
             temp[index].title = data.title;
             temp[index].desc = data.desc;
             editing = null;
@@ -147,6 +180,12 @@ function addTask(event) {
         }
     }
     else {
+        if (data.title == "") {
+            formTitle.classList.add("blank");
+            formTitle.placeholder = "Please enter a task name";
+            return;
+        }
+
         switch (data["priority"]) { //*** add try catch? */
             case "do":
                 doList.push(data);
@@ -167,8 +206,22 @@ function addTask(event) {
     }
 
     taskForm.reset();
+    formTitle.placeholder = "Task";
+    taskPopup.classList.remove("open");
     updatePage();
 }
 
 
 saveBtn.addEventListener("click", addTask)
+openBtn.addEventListener("click", () => {
+    taskPopup.classList.add("open");
+});
+cancelBtn.addEventListener("click", () => {
+    editing = null;
+    taskPopup.classList.remove("open");
+    formTitle.classList.remove("blank");
+    formTitle.placeholder = "Task";
+});
+formTitle.addEventListener("focus", () => {
+    formTitle.classList.remove("blank");
+})
