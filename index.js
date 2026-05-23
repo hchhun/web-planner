@@ -8,7 +8,9 @@ const formDesc = document.getElementById("desc");
 
 const doTaskContainer = document.querySelector("#doTaskContainer");
 const scheduleTaskContainer = document.querySelector('#scheduleTaskContainer');
+const delegateTaskContainer = document.querySelector('#delegateTaskContainer');
 const deleteTaskContainer = document.querySelector('#deleteTaskContainer');
+const clock = document.querySelector('#clock');
 
 doList = [];
 scheduleList = [];
@@ -16,21 +18,20 @@ delegateList = [];
 deleteList = [];
 editing = null;
 
-
 function initialLoad() {
     if (!localStorage.getItem("doList")) {
         localStorage.setItem("doList", JSON.stringify(doList));
     }
     if (!localStorage.getItem("scheduleList")) {
         localStorage.setItem("scheduleList", JSON.stringify(scheduleList));
-        scheduleTaskContainer.innerHTML = `<img src="graphics/coffeepixel.png">`;
     }
     if (!localStorage.getItem("delegateList")) {
-        llocalStorage.setItem("delegateList", JSON.stringify(delegateList));
+        localStorage.setItem("delegateList", JSON.stringify(delegateList));
     }
     if (!localStorage.getItem("deleteList")) {
         localStorage.setItem("deleteList", JSON.stringify(deleteList));
     }
+    updateTime();
     updatePage();
 }
 initialLoad();
@@ -51,50 +52,121 @@ function updatePage() {
     deleteList = JSON.parse(localStorage.getItem("deleteList"));
 
     // scheduleTaskContainer.innerHTML = `<p1>hi</p1>`;
-
     let doInner = '';
-    doList.forEach((taskElement, taskIndex) => {
-        if (taskElement.completed == true) {
-            doInner += `<div class="completed task doTask" onclick="openTask('doList', ${taskIndex})">
-                            <div class="taskLeft">
-                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
-        else {
-            doInner += `<div class="task doTask" onclick="openTask('doList', ${taskIndex})">
-                            <div class="taskLeft">
-                                <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
+    if (doList == "") {
+        doInner = `<p1>No tasks</p1>`;
+    }
+    else {
+        doList.forEach((taskElement, taskIndex) => {
+            if (taskElement.completed == true) {
+                doInner += `<div class="completed task doTask" onclick="openTask('doList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
+            else {
+                doInner += `<div class="task doTask" onclick="openTask('doList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
 
-        doInner += `<div class="taskText">
-                        <span>${taskElement["title"]}</span>`
+            doInner += `<div class="taskText">
+                            <span>${taskElement["title"]}</span>`
 
-        if (taskElement.date != "") {doInner += `<span class="date">${taskElement.date}</span>`;}
-                        
-        doInner += `</div>
-                    </div>
-                    <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
-                    </div>` 
-    });
+            if (taskElement.date != "") {doInner += `<span class="date">${taskElement.date}</span>`;}
+                            
+            doInner += `</div>
+                        </div>
+                        <button class="iconBtn" onclick="deleteTask('doList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>` 
+        });
+    }
     doTaskContainer.innerHTML = doInner;
 
-    if (scheduleList == "[]") {
-        scheduleTaskContainer.innerHTML = `<p1>No tasks</p1>`;
-    }
-    // else {
-    //     let scheduleInner = '';
-    //     scheduleList.forEach((taskElement, taskIndex) => {
-    //         if (taskElement.completed == true) {
-    //             scheduleInner += `<div class="task scheduleTask completed">
-    //                             <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-solid fa-check"></i></button>`;}
-    //         else {
-    //             scheduleInner += `<div class="task scheduleTask">
-    //                             <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-square"></i></button>`;}
 
-    //         scheduleInner += `    <span class="taskFront" onclick="openTask('scheduleList', ${taskIndex})">${taskElement["title"]}</span>
-    //                         <button class="iconBtn" onclick="deleteTask('scheduleList', ${taskIndex})"><i class="fa-regular fa-trash-can"></i></button>
-    //                     </div>`
-    //     });
-    //     scheduleTaskContainer.innerHTML = scheduleInner;
-        
-    // }
+    let scheduleInner = '';
+    if (scheduleList == "") {
+        scheduleInner = `<p1>No tasks</p1>`;
+    }
+    else {
+        scheduleList.forEach((taskElement, taskIndex) => {
+            if (taskElement.completed == true) {
+                scheduleInner += `<div class="completed task scheduleTask" onclick="openTask('scheduleList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
+            else {
+                scheduleInner += `<div class="task scheduleTask" onclick="openTask('scheduleList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('scheduleList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
+
+            scheduleInner += `<div class="taskText">
+                            <span>${taskElement["title"]}</span>`
+
+            if (taskElement.date != "") {scheduleInner += `<span class="date">${taskElement.date}</span>`;}
+                            
+            scheduleInner += `</div>
+                        </div>
+                        <button class="iconBtn" onclick="deleteTask('scheduleList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>` 
+        });
+    }
+    scheduleTaskContainer.innerHTML = scheduleInner;
+
+
+    let delegateInner = '';
+    if (delegateList == "") {
+        delegateInner = `<p1>No tasks</p1>`;
+    }
+    else {
+        delegateList.forEach((taskElement, taskIndex) => {
+            if (taskElement.completed == true) {
+                delegateInner += `<div class="completed task delegateTask" onclick="openTask('delegateList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('delegateList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
+            else {
+                delegateInner += `<div class="task delegateTask" onclick="openTask('delegateList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('delegateList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
+
+            delegateInner += `<div class="taskText">
+                            <span>${taskElement["title"]}</span>`
+
+            if (taskElement.date != "") {delegateInner += `<span class="date">${taskElement.date}</span>`;}
+                            
+            delegateInner += `</div>
+                        </div>
+                        <button class="iconBtn" onclick="deleteTask('delegateList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>` 
+        });
+    }
+    delegateTaskContainer.innerHTML = delegateInner;
+
+
+    let deleteInner = '';
+    if (deleteList == "") {
+        deleteInner = `<p1>No tasks</p1>`;
+    }
+    else {
+        deleteList.forEach((taskElement, taskIndex) => {
+            if (taskElement.completed == true) {
+                deleteInner += `<div class="completed task deleteTask" onclick="openTask('deleteList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('deleteList', ${taskIndex}, event)"><i class="fa-solid fa-check"></i></button>`;}
+            else {
+                deleteInner += `<div class="task deleteTask" onclick="openTask('deleteList', ${taskIndex})">
+                                <div class="taskLeft">
+                                    <button class="iconBtn" onclick="checkTask('deleteList', ${taskIndex}, event)"><i class="fa-regular fa-square"></i></button>`;}
+
+            deleteInner += `<div class="taskText">
+                            <span>${taskElement["title"]}</span>`
+
+            if (taskElement.date != "") {deleteInner += `<span class="date">${taskElement.date}</span>`;}
+                            
+            deleteInner += `</div>
+                        </div>
+                        <button class="iconBtn" onclick="deleteTask('deleteList', ${taskIndex}, event)"><i class="fa-regular fa-trash-can"></i></button>
+                        </div>` 
+        });
+    }
+    deleteTaskContainer.innerHTML = deleteInner;
+
     
 }
 
@@ -128,12 +200,6 @@ function deleteTask(list, index, event) {
     task.classList.add("shrink");
 
     setTimeout(() => {
-        // let temp = JSON.parse(localStorage.getItem(list));
-        // temp = temp.filter((taskElement, taskIndex) => {
-        //     if (taskIndex === index) {return false;}
-        //     return true;})
-        // localStorage.setItem(list, JSON.stringify(temp));
-        // updatePage();
         deleteNoAnimation(list, index)
         }, 400);
 }
@@ -175,6 +241,7 @@ function addTask(event) {
 
             temp[index].title = data.title;
             temp[index].desc = data.desc;
+            temp[index].date = data.date;
             editing = null;
             localStorage.setItem(list, JSON.stringify(temp));
         }
@@ -224,4 +291,49 @@ cancelBtn.addEventListener("click", () => {
 });
 formTitle.addEventListener("focus", () => {
     formTitle.classList.remove("blank");
+})
+
+
+function updateTime() {
+    const time = new Date();
+    let h = time.getHours();
+    let m = time.getMinutes();
+    let s = time.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+
+    let period = "AM";
+    if (h > 12) {
+        h = h % 12;
+        period = "PM";
+    }
+    h = checkTime(h);
+
+    clock.innerHTML = `<div>${h}:${m}</div>
+                        <div id="timeRight">
+                            <p1>${period}</p1>
+                            <p1>${s}</p1>
+                        </div>`;
+    setTimeout(() => {updateTime()}, 1000);
+}
+function checkTime(unit) {
+    if (unit < 10) {
+        unit = "0" + unit;
+    }
+    return unit;
+}
+
+resetBtn.addEventListener("click", () => {
+    doList = [];
+    scheduleList = [];
+    delegateList = [];
+    deleteList = [];
+    editing = null;
+
+    localStorage.setItem("doList", JSON.stringify(doList));
+    localStorage.setItem("scheduleList", JSON.stringify(scheduleList));
+    localStorage.setItem("delegateList", JSON.stringify(delegateList));
+    localStorage.setItem("deleteList", JSON.stringify(deleteList));
+
+    updatePage();
 })

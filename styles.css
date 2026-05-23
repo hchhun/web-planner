@@ -5,12 +5,20 @@ body{
     font-family: "Figtree", sans-serif;
 }
 
+button {
+    font-family: "Figtree", sans-serif;
+}
+
+p1, #resetBtn{
+    opacity: .4;
+}
+
 #matrix {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     padding: 7px;
-    width: 75vw;
+    width: 70vw;
     height: 98vh;
     margin-left: auto;
 }
@@ -25,28 +33,31 @@ body{
     flex-direction: column;
     gap: 12px;
     overflow-y: scroll;
-    padding-right: 35px;
-    transition: transform 0.3 ease;
+    transition: transform 0.3s ease;
     will-change: transform, opacity;
+    min-width: 250px;
     
 }
 
 
 #doContainer {
-    color: rgb(188 208 221);
+    color: #75b1d9;
     overflow: hidden;
     display: flex;
     flex-direction: column;
 }
 #doTaskContainer .task{
-    background-color: rgb(188 208 221);
+    background-color: rgb(157, 199, 225);
     color: rgb(22 97 146);
+}
+#doTaskContainer .date{
+    background-color: rgb(124, 173, 206);
 }
 #doTaskContainer .iconBtn{
     color: rgb(22 97 146);
 }
 #doTaskContainer .completed{
-    color: rgb(135, 161, 177);
+    color: rgb(124, 167, 193);
 }
 
 
@@ -60,23 +71,69 @@ body{
     background-position: center; */
     /* background-color: rgb(242, 226, 195); */
 }
+#scheduleContainer .task {
+    background-color: #eed5af;
+    color: #c27400;
+}
+#scheduleContainer .date {
+    background-color: #ebbc77;
+}
+#scheduleContainer .iconBtn {
+    color: #c27400;
+}
+#scheduleContainer .completed {
+    color: rgb(210, 168, 104);
+}
 
 #delegateContainer {
     /* border: 3px solid rgb(113 150 135); */
-    color: rgb(113 150 135);
+    color: #a3cb74;
     /* background-color: rgb(191, 212, 204); */
 }
+#delegateContainer .task {
+    background-color: #c7dbb0;
+    color: #4a7915;
+}
+#delegateContainer .date {
+    background-color: #a8c686;
+}
+#delegateContainer .iconBtn {
+    color: #4a7915;
+}
+#delegateContainer .completed {
+    color: #9cb77c;
+}
+
 
 #deleteContainer {
     /* border: 3px solid rgb(212 96 77); */
-    color: rgb(212 96 77);
+    color: #f06f52;
     /* background-color: rgb(234, 201, 196); */
+}
+#deleteContainer .task {
+    background-color: #f0a492;
+    color: #9d300f;
+}
+#deleteContainer .date {
+    background-color: #e3967e;
+}
+#deleteContainer .iconBtn {
+    color: #9d300f;
+}
+#deleteContainer .completed {
+    color: #ba6f58;
 }
 
 #sideWidget{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
     background-image: linear-gradient(to right, rgb(197 202 212), rgb(107 136 203));
     flex-grow: 1;
-    padding: 15px 30px 15px 30px;
+    padding: 0px 30px 35px 30px;
+    gap: 13px;
+    color: rgb(24, 24, 24);
 }
 
 /* @keyframes hoverTask {
@@ -90,6 +147,8 @@ body{
     padding: 10px;
     border-radius: 7px;
     transition: transform .5s ease, opacity 0.3s ease;
+    min-width: 200px;
+    max-width: 400px;
 }
 .task:hover{
     cursor: pointer;
@@ -99,7 +158,6 @@ body{
 .task .date {
     font-weight: normal;
     font-size: 11px;
-    background-color: rgb(144 185 212);
     padding: 2px 7px 2px 7px;
     border-radius: 6px;
 }
@@ -187,16 +245,16 @@ span {
     transform: translate(-50%, -50%);
     position: fixed;
 }
-#taskForm h1, label, select, input, textarea {
+#taskForm h1, #taskForm label, #taskForm select, #taskForm input, #taskForm textarea {
     color: rgb(197 202 212);
     border: none;
 }
-#taskForm select, input, textarea {
+#taskForm select, #taskForm input, #taskForm textarea {
     background-color: rgb(28, 28, 28);
     padding: 10px;
     border-radius: 5px;
 }
-#taskPopup select:focus, input:focus, textarea:focus {
+#taskPopup select:focus, #taskPopup input:focus, #taskPopup textarea:focus {
     outline: none;
 }
 
@@ -216,9 +274,9 @@ span {
     font-size: 75%;
 }
 
-.taskWidget {
+/* .taskWidget {
     padding: 0px;
-}
+} */
 
 #selectContainer {
     display: flex;
@@ -263,4 +321,113 @@ span {
 }
 .btnContainer button:hover {
     cursor: pointer;
+}
+
+
+#clock {
+    padding-top: 30px;
+    display: flex;
+    align-items:last baseline;
+    gap: 12px;
+    font-size: 75px;
+    font-weight: bold;
+}
+#timeRight {
+    display: flex;
+    flex-direction: column;
+    font-size: large;
+    gap: 8px;
+}
+#sideWidget button {
+    border: none;
+    background: none;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+    font-weight: bold;
+}
+#sideWidget button:hover{
+    cursor: pointer;
+    transform: translateX(10px);
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#pomoMode {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(107 136 203);
+}
+#timerContainer {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* width: 35vw; */
+}
+#timer {
+    color: rgb(24, 24, 24);
+    text-align: center;
+    font-size: 150px;
+    font-weight: bold;
+}
+#controlContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.controlBtn {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 2px solid rgb(46, 82, 168);
+    color: rgb(19, 59, 150);
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 15px;
+    
+}
+.timerControlBtn {
+    width: 150px;
+    
+}
+.timerControlBtn input {
+    color: rgb(19, 59, 150);
+    font-weight: bold;
+    background: none;
+    border: none;
+    outline: none;
+    width: 80px;
+}
+.timerControlBtn input:focus {
+    /* background-color: rgb(85, 115, 186); */
+    color: rgb(197 202 212);
+}
+.controlBtn:hover {
+    cursor: pointer;
+}
+
+#startStop {
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(46, 82, 168);
+    color: rgb(197 202 212);
+    width: 45px;
+    aspect-ratio: 1 / 1;
+}
+.timerInput {
+    display: flex;
+    gap: 15px;
+    
+    justify-content: space-between;
 }

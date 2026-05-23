@@ -13,9 +13,12 @@
 </head>
 <body>
     <div id="sideWidget">
-        <h1>Hello</h1>
-        <h1>Linda</h1>
-        <button id="openBtn">+ New task</button>
+        <div class="top">
+            <div id="clock"></div>
+            <button id="openBtn"><i class="fa-solid fa-plus"></i> New task</button>
+            <button id="pomodoro"><i class="fa-regular fa-clock"></i> Pomodoro mode</button>
+        </div>
+        <button id="resetBtn">Reset planner</button>
     </div>
     <div id="matrix">
         <div id="doContainer" class="category">
@@ -64,6 +67,39 @@
                 <button id="cancelBtn" type="reset">Cancel</button>
             </div>
         </form>
+    </div>
+    <div id="pomoMode">
+        <button><i class="fa-solid fa-chevron-left"></i>Exit</button>
+        <div id="timerContainer">
+            <div id="timer">hello</div>
+            <div id="controlContainer">
+                <div class="controlBtn timerControlBtn">
+                    Focus
+                    <div class="timerInput">
+                        <input>
+                        <i class="fa-solid fa-bell-slash"></i>
+                    </div>    
+                </div>
+                <div class="controlBtn timerControlBtn">
+                    Short break
+                    <div class="timerInput">
+                        <input>
+                        <i class="fa-solid fa-mug-saucer"></i>
+                    </div>  
+                </div>
+                <div class="controlBtn timerControlBtn">
+                    Long break
+                    <div class="timerInput">
+                        <input>
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>  
+                </div>
+                <div id="startStop" class="controlBtn">
+                    Start
+                </div>
+            </div>
+        </div>
+        
     </div>
 </body>
 <script src="index.js"></script>
