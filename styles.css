@@ -21,10 +21,16 @@ p1, #resetBtn{
     width: 70vw;
     height: 98vh;
     margin-left: auto;
+    transition: width 0.7s ease;
+}
+
+#matrix.shrink {
+    width: 0vw;
+    z-index: -1;
 }
 
 .category {
-    padding: 10px 35px 35px 80px;
+    padding: 10px 30px 35px 60px;
     font-weight: bold;
 }
 
@@ -127,14 +133,17 @@ p1, #resetBtn{
 #sideWidget{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
     background-image: linear-gradient(to right, rgb(197 202 212), rgb(107 136 203));
     flex-grow: 1;
     padding: 0px 30px 35px 30px;
-    gap: 13px;
     color: rgb(24, 24, 24);
+    /* transition: width 0.7s ease; */
 }
+
+
+/* #sideWidget.stretch{
+    width: 100vw;
+} */
 
 /* @keyframes hoverTask {
     100% {transform: translateX(10px);}
@@ -345,7 +354,7 @@ span {
     transition: transform 0.3s ease;
     font-weight: bold;
 }
-#sideWidget button:hover{
+#sideWidget button:hover, #pomoMode .iconBtn:hover{
     cursor: pointer;
     transform: translateX(10px);
 }
@@ -357,13 +366,24 @@ span {
     gap: 10px;
 }
 
+#pomoMode.open {
+    opacity: 1;
+    z-index: 999;
+    transform: translateX(0);
+}
+
 #pomoMode {
+    opacity: 0;
+    z-index: -1;
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgb(107 136 203);
+    /* background-color: rgb(107 136 203); */
+    background-color: none;
+    transform: translateX(-70vw);
+    transition: all ease 0.7s;
 }
 #timerContainer {
     top: 50%;
@@ -372,7 +392,7 @@ span {
     position: fixed;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 60px;
     /* width: 35vw; */
 }
 #timer {
@@ -385,6 +405,7 @@ span {
     display: flex;
     justify-content: space-between;
     gap: 20px;
+    
 }
 .controlBtn {
     display: flex;
@@ -397,21 +418,27 @@ span {
     padding: 15px;
     
 }
-.timerControlBtn {
+/* .timerControlBtn {
     width: 150px;
+    transition: stretch 0.3s ease;
     
-}
+} */
 .timerControlBtn input {
     color: rgb(19, 59, 150);
     font-weight: bold;
     background: none;
     border: none;
     outline: none;
-    width: 80px;
+    /* max-width: 80px; */
+    
 }
 .timerControlBtn input:focus {
     /* background-color: rgb(85, 115, 186); */
     color: rgb(197 202 212);
+}
+.timerControlBtn:hover {
+    width: stretch;
+    margin-left: auto;
 }
 .controlBtn:hover {
     cursor: pointer;
@@ -422,7 +449,7 @@ span {
     align-items: center;
     background-color: rgb(46, 82, 168);
     color: rgb(197 202 212);
-    width: 45px;
+    min-width: 45px;
     aspect-ratio: 1 / 1;
 }
 .timerInput {
@@ -430,4 +457,25 @@ span {
     gap: 15px;
     
     justify-content: space-between;
+}
+
+#pomoMode .iconBtn {
+    padding: 20px;
+    color: rgb(19, 59, 150);
+    transition: transform 0.3s ease;
+}
+
+#sideContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 13px;
+    flex: 1;
+    transition: all 0.7s ease;
+}
+
+#sideContent.stretch {
+    opacity: 0;
+    z-index: -1;
 }

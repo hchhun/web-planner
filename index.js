@@ -3,6 +3,10 @@ const formPriority = document.getElementById("priority");
 const formDate = document.getElementById("date");
 const formTitle = document.getElementById("title");
 const formDesc = document.getElementById("desc");
+const pomoMode = document.getElementById("pomoMode");
+const sideWidget = document.getElementById("sideWidget");
+const matrix = document.getElementById("matrix");
+const sideContent = document.getElementById("sideContent");
 // const addTaskBtn = document.getElementById("saveBtn");
 // const cancelTaskBtn = document.getElementById("cancelBtn");
 
@@ -291,6 +295,18 @@ cancelBtn.addEventListener("click", () => {
 });
 formTitle.addEventListener("focus", () => {
     formTitle.classList.remove("blank");
+})
+pomodoro.addEventListener("click", () => {
+    pomoMode.classList.add("open");
+    // sideWidget.classList.add("stretch");
+    sideContent.classList.add("stretch");
+    matrix.classList.add("shrink");
+});
+pomoExit.addEventListener("click", () => {
+    pomoMode.classList.remove("open");
+    // sideWidget.classList.remove("stretch");
+    sideContent.classList.remove("stretch");
+    matrix.classList.remove("shrink");
 })
 
 

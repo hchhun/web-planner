@@ -13,12 +13,15 @@
 </head>
 <body>
     <div id="sideWidget">
-        <div class="top">
-            <div id="clock"></div>
-            <button id="openBtn"><i class="fa-solid fa-plus"></i> New task</button>
-            <button id="pomodoro"><i class="fa-regular fa-clock"></i> Pomodoro mode</button>
+        <div id="sideContent">
+            <div class="top">
+                <div id="clock"></div>
+                <button id="openBtn"><i class="fa-solid fa-plus"></i> New task</button>
+                <button id="quickNote"><i class="fa-solid fa-pencil"></i> Quick notes</button>
+                <button id="pomodoro"><i class="fa-regular fa-clock"></i> Pomodoro mode</button>
+            </div>
+            <button id="resetBtn">Reset planner</button>
         </div>
-        <button id="resetBtn">Reset planner</button>
     </div>
     <div id="matrix">
         <div id="doContainer" class="category">
@@ -69,14 +72,14 @@
         </form>
     </div>
     <div id="pomoMode">
-        <button><i class="fa-solid fa-chevron-left"></i>Exit</button>
+        <button id="pomoExit" class="iconBtn"><i class="fa-solid fa-chevron-left"></i>Exit</button>
         <div id="timerContainer">
             <div id="timer">hello</div>
             <div id="controlContainer">
                 <div class="controlBtn timerControlBtn">
                     Focus
                     <div class="timerInput">
-                        <input>
+                        <input type="number">
                         <i class="fa-solid fa-bell-slash"></i>
                     </div>    
                 </div>
