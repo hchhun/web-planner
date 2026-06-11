@@ -74,32 +74,44 @@
     <div id="pomoMode">
         <button id="pomoExit" class="iconBtn"><i class="fa-solid fa-chevron-left"></i>Exit</button>
         <div id="timerContainer">
-            <div id="timer">hello</div>
+            <div id="timerTop">
+                <div id="timer"><div id="min"></div>:<div id="sec"></div></div>
+                <button id="timerReset" class="iconBtn"><i class="fa-solid fa-arrow-rotate-left"></i></button>
+            </div>
+            
             <div id="controlContainer">
-                <div class="controlBtn timerControlBtn">
+                <div id="focusContainer" class="controlBtn timerControlBtn" onclick="setPomo('focus')">
                     Focus
                     <div class="timerInput">
-                        <input type="number">
+                        <div class="timerAmt">
+                            <input id="focus" maxlength="2">
+                            <p1>min</p1>
+                        </div>
                         <i class="fa-solid fa-bell-slash"></i>
                     </div>    
                 </div>
-                <div class="controlBtn timerControlBtn">
+                <div id="shortBrkContainer" class="controlBtn timerControlBtn" onclick="setPomo('shortBrk')">
                     Short break
                     <div class="timerInput">
-                        <input>
+                        <div class="timerAmt">
+                            <input id="shortBrk" maxlength="2">
+                            <p1>min</p1>
+                        </div>
+                        
                         <i class="fa-solid fa-mug-saucer"></i>
                     </div>  
                 </div>
-                <div class="controlBtn timerControlBtn">
+                <div id="longBrkContainer" class="controlBtn timerControlBtn" onclick="setPomo('longBrk')">
                     Long break
                     <div class="timerInput">
-                        <input>
+                        <div class="timerAmt">
+                            <input id="longBrk" maxlength="2">
+                            <p1>min</p1>
+                        </div>
                         <i class="fa-solid fa-cookie-bite"></i>
                     </div>  
                 </div>
-                <div id="startStop" class="controlBtn">
-                    Start
-                </div>
+                <div id="startStop" class="controlBtn">Start</div>
             </div>
         </div>
         

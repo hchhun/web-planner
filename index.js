@@ -7,14 +7,28 @@ const pomoMode = document.getElementById("pomoMode");
 const sideWidget = document.getElementById("sideWidget");
 const matrix = document.getElementById("matrix");
 const sideContent = document.getElementById("sideContent");
-// const addTaskBtn = document.getElementById("saveBtn");
-// const cancelTaskBtn = document.getElementById("cancelBtn");
+const focus = document.getElementById("focus");
+const shortBrk = document.getElementById("shortBrk");
+const longBrk = document.getElementById("longBrk");
+const focusContainer = document.getElementById("focusContainer");
+const shortBrkContainer = document.getElementById("shortBrkContainer");
+const longBrkContainer = document.getElementById("longBrkContainer");
+const min = document.getElementById("min");
+const sec = document.getElementById("sec");
+const timerReset = document.getElementById("timerReset");
 
 const doTaskContainer = document.querySelector("#doTaskContainer");
 const scheduleTaskContainer = document.querySelector('#scheduleTaskContainer');
 const delegateTaskContainer = document.querySelector('#delegateTaskContainer');
 const deleteTaskContainer = document.querySelector('#deleteTaskContainer');
 const clock = document.querySelector('#clock');
+const startStop = document.querySelector('#startStop');
+const timer = document.querySelector('#timer');
+
+const pomoFocus = 25;
+const pomoShortBrk = 5;
+const pomoLongBrk = 15;
+curPomoSetting = "focus";
 
 doList = [];
 scheduleList = [];
@@ -37,15 +51,9 @@ function initialLoad() {
     }
     updateTime();
     updatePage();
+    setPomo('focus');
 }
 initialLoad();
-
-// function checkEmpty() {
-//     if (scheduleList == []) {
-//         scheduleList.innerHTML = `<p1>hi</p1>`;
-//     }
-//     return;
-// }
 
 
 function updatePage() {
@@ -307,6 +315,9 @@ pomoExit.addEventListener("click", () => {
     // sideWidget.classList.remove("stretch");
     sideContent.classList.remove("stretch");
     matrix.classList.remove("shrink");
+    startStop.innerHTML = 'Start';
+    startStop.classList.remove('running');
+    startStop.classList.remove('pause');
 })
 
 
@@ -352,4 +363,89 @@ resetBtn.addEventListener("click", () => {
     localStorage.setItem("deleteList", JSON.stringify(deleteList));
 
     updatePage();
+})
+
+startStop.addEventListener("click", () => {
+    if (startStop.innerHTML == 'Start') {
+        startStop.innerHTML = 'Pause';
+        startStop.classList.add('running')
+    }
+    else {
+        startStop.innerHTML = 'Start';
+        startStop.classList.remove('running');
+    }
+
+    startStop.classList.toggle('pause');
+    updatePomo();
+})
+
+function setPomo(pomoType) {
+    
+    if (focus.value == "" || (isNaN(Number(focus.value)))) focus.value = pomoFocus;
+    if (shortBrk.value == "") shortBrk.value = pomoShortBrk;
+    if (longBrk.value == "") longBrk.value = pomoLongBrk;
+
+    sec.textContent = "00";
+    curPomoSetting = pomoType;
+
+    let timerVal;
+    
+    if (pomoType == 'focus') {
+        min.textContent = focus.value;
+        focusContainer.classList.add('selected');
+        shortBrkContainer.classList.remove('selected');
+        longBrkContainer.classList.remove('selected');
+    }
+    else if (pomoType == 'shortBrk') {
+        min.textContent = shortBrk.value
+        focusContainer.classList.remove('selected');
+        shortBrkContainer.classList.add('selected');
+        longBrkContainer.classList.remove('selected');
+    }
+    else if (pomoType == 'longBrk') {
+        min.textContent = longBrk.value;
+        focusContainer.classList.remove('selected');
+        shortBrkContainer.classList.remove('selected');
+        longBrkContainer.classList.add('selected');
+    }
+
+    startStop.innerHTML = 'Start';
+    startStop.classList.remove('running');
+    startStop.classList.remove('pause');
+}
+
+timerReset.addEventListener("click", () => {
+    setPomo(curPomoSetting);
+})
+
+
+function updatePomo() {
+    if (!startStop.classList.contains('running')) return;
+
+    let m = Number(min.textContent);
+    let s = Number(sec.textContent);
+    if (m == 0 && s == 0) return;
+
+    if (s <= 0) {
+        s = 59;
+        m = m - 1;
+    }
+    else {s = s - 1;}
+
+    if (m < 10) min.textContent = `0${m}`;
+    else min.textContent = m;
+    if (s < 10) sec.textContent = `0${s}`;
+    else sec.textContent = s;
+
+    setTimeout(() => {updatePomo()}, 1000);
+}
+
+focus.addEventListener("change", () => {
+    setPomo('focus');
+})
+shortBrk.addEventListener("change", () => {
+    setPomo('shortBrk');
+})
+longBrk.addEventListener("change", () => {
+    setPomo('longBrk');
 })
