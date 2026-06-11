@@ -24,9 +24,40 @@ p1, #resetBtn{
     transition: width 0.7s ease;
 }
 
-#matrix.shrink {
+#notepad.shrink textarea{
+    opacity: 0;
+}
+
+#matrix.shrink, #notepad.shrink {
     width: 0vw;
     z-index: -1;
+}
+
+#matrix.hide {
+    opacity: 0;
+    z-index: -1;
+}
+
+#notepad {
+    opacity: 0;
+    z-index: -1;
+    position: fixed;
+    display: flex;
+    right: 0;
+    width: 70vw;
+    height: 98vh;
+    transition: ease .3s all, width 0.7s ease;
+}
+
+#notepad textarea {
+    resize: none;
+    font-size: x-large; 
+    background-color: rgb(39, 39, 39);
+    border: none;
+    color: rgb(197 202 212);
+    padding: 50px 30px 30px 45px;
+    width: 100%;
+    height: 100%;
 }
 
 .category {
@@ -226,7 +257,7 @@ span {
     font-weight: bold;
 }
 
-#taskPopup.open {
+#taskPopup.open, #clearPopup.open, #notepad.open{
     opacity: 1;
     z-index: 999;
 }
@@ -255,11 +286,11 @@ span {
     padding: 10px;
     border-radius: 5px;
 }
-#taskPopup select:focus, #taskPopup input:focus, #taskPopup textarea:focus {
+#taskPopup select:focus, #taskPopup input:focus, #taskPopup textarea:focus, #notepad textarea:focus {
     outline: none;
 }
 
-#taskPopup {
+#taskPopup, #clearPopup{
     opacity: 0;
     z-index: -1;
     top: 0;
@@ -275,9 +306,26 @@ span {
     font-size: 75%;
 }
 
-/* .taskWidget {
-    padding: 0px;
-} */
+#clearPopupContents {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    background-color: rgb(39, 39, 39);
+    position: fixed;
+    padding: 30px;
+    color: rgb(197 202 212);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    border: 1px solid black;
+    align-items: center;
+}
+
+#clearPopupBtnCon {
+    display: flex;
+    gap: 25px;
+}
 
 #selectContainer {
     display: flex;

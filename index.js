@@ -16,6 +16,9 @@ const longBrkContainer = document.getElementById("longBrkContainer");
 const min = document.getElementById("min");
 const sec = document.getElementById("sec");
 const timerReset = document.getElementById("timerReset");
+const clearPopup = document.getElementById("clearPopup");
+const quickNote = document.getElementById("quickNote");
+const notepad = document.getElementById("notepad");
 
 const doTaskContainer = document.querySelector("#doTaskContainer");
 const scheduleTaskContainer = document.querySelector('#scheduleTaskContainer');
@@ -309,12 +312,14 @@ pomodoro.addEventListener("click", () => {
     // sideWidget.classList.add("stretch");
     sideContent.classList.add("stretch");
     matrix.classList.add("shrink");
+    notepad.classList.add("shrink");
 });
 pomoExit.addEventListener("click", () => {
     pomoMode.classList.remove("open");
     // sideWidget.classList.remove("stretch");
     sideContent.classList.remove("stretch");
     matrix.classList.remove("shrink");
+    notepad.classList.remove("shrink");
     startStop.innerHTML = 'Start';
     startStop.classList.remove('running');
     startStop.classList.remove('pause');
@@ -351,6 +356,14 @@ function checkTime(unit) {
 }
 
 resetBtn.addEventListener("click", () => {
+    clearPopup.classList.add('open');
+})
+
+noClearBtn.addEventListener("click", () => {
+    clearPopup.classList.remove('open');
+});
+
+yesClearBtn.addEventListener("click", () => {
     doList = [];
     scheduleList = [];
     delegateList = [];
@@ -363,6 +376,7 @@ resetBtn.addEventListener("click", () => {
     localStorage.setItem("deleteList", JSON.stringify(deleteList));
 
     updatePage();
+    clearPopup.classList.remove('open');
 })
 
 startStop.addEventListener("click", () => {
@@ -414,9 +428,11 @@ function setPomo(pomoType) {
     startStop.classList.remove('pause');
 }
 
-timerReset.addEventListener("click", () => {
-    setPomo(curPomoSetting);
-})
+timerReset.addEventListener("click", setPomo(curPomoSetting));
+
+
+
+
 
 
 function updatePomo() {
@@ -449,3 +465,12 @@ shortBrk.addEventListener("change", () => {
 longBrk.addEventListener("change", () => {
     setPomo('longBrk');
 })
+
+quickNote.addEventListener("click", () => {
+    notepad.classList.toggle("open");
+    matrix.classList.toggle("hide");
+
+    if (notepad.classList.contains("open")) quickNote.innerHTML = `<i class="fa-solid fa-book-bookmark"></i> Planner`;
+    else quickNote.innerHTML = `<i class="fa-solid fa-pencil"></i> Quick notes`;
+    
+});
