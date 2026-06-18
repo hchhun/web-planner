@@ -45,6 +45,8 @@ deleteList = [];
 note = "";
 editing = null;
 
+// testing pull from remote
+
 function initialLoad() {
     if (!localStorage.getItem("doList")) {
         localStorage.setItem("doList", JSON.stringify(doList));
