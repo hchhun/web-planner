@@ -59,7 +59,7 @@ function initialLoad() {
         localStorage.setItem("deleteList", JSON.stringify(deleteList));
     }
     if (!localStorage.getItem("note")) {
-        localStorage.setItem("note", JSON.stringify(note));
+        localStorage.setItem("note", note);
     }
     updateTime();
     updatePage();
@@ -307,7 +307,9 @@ function addTask(event) {
 
     taskForm.reset();
     formTitle.placeholder = "Task";
+    toggleNote();
     taskPopup.classList.remove("open");
+    
     updatePage();
 }
 
@@ -400,13 +402,29 @@ function updatePomo() {
     setTimeout(() => {updatePomo()}, 1000);
 }
 
+function toggleNote() {
+    if (notepad.classList.contains("open")) {
+        notepad.classList.remove("open");
+        notepad.classList.add("back");
+    }
+    else if (notepad.classList.contains("back")) {
+        notepad.classList.add("open");
+        notepad.classList.remove("back");
+    }
+}
+
 
 saveBtn.addEventListener("click", addTask)
 openBtn.addEventListener("click", () => {
+    toggleNote();
     taskPopup.classList.add("open");
 });
 cancelBtn.addEventListener("click", () => {
     editing = null;
+    if (notepad.classList.contains("back")) {
+        notepad.classList.add("open");
+        notepad.classList.remove("back");
+    }
     taskPopup.classList.remove("open");
     formTitle.classList.remove("blank");
     formTitle.placeholder = "Task";
@@ -429,9 +447,11 @@ pomoExit.addEventListener("click", () => {
 });
 
 resetBtn.addEventListener("click", () => {
+    toggleNote();
     clearPopup.classList.add('open');
 });
 noClearBtn.addEventListener("click", () => {
+    toggleNote();
     clearPopup.classList.remove('open');
 });
 yesClearBtn.addEventListener("click", () => {
@@ -447,6 +467,7 @@ yesClearBtn.addEventListener("click", () => {
     localStorage.setItem("deleteList", JSON.stringify(deleteList));
 
     updatePage();
+    toggleNote();
     clearPopup.classList.remove('open');
 });
 

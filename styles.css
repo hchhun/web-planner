@@ -3,6 +3,7 @@ body{
     margin: 0;
     background-color: rgb(39, 39, 39);
     font-family: "Figtree", sans-serif;
+    overflow-x: hidden;
 }
 
 button {
@@ -33,7 +34,7 @@ p1, #resetBtn{
     z-index: -1;
 }
 
-#matrix.hide {
+#matrix.hide, #notepad.hide{
     opacity: 0;
     z-index: -1;
 }
@@ -59,7 +60,7 @@ p1, #resetBtn{
     padding: 50px 30px 30px 45px;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    overflow-y:scroll;
 }
 
 .category {
@@ -102,13 +103,7 @@ p1, #resetBtn{
 
 
 #scheduleContainer {
-    /* border: 3px solid rgb(233 167 82); */
     color: rgb(233 167 82);
-    /* background-image: url("graphics/cofeepixel.png");
-    background-size: 25%;
-    background-repeat: no-repeat;
-    background-position: center; */
-    /* background-color: rgb(242, 226, 195); */
 }
 #scheduleContainer .task {
     background-color: #eed5af;
@@ -125,9 +120,7 @@ p1, #resetBtn{
 }
 
 #delegateContainer {
-    /* border: 3px solid rgb(113 150 135); */
     color: #a3cb74;
-    /* background-color: rgb(191, 212, 204); */
 }
 #delegateContainer .task {
     background-color: #c7dbb0;
@@ -145,9 +138,7 @@ p1, #resetBtn{
 
 
 #deleteContainer {
-    /* border: 3px solid rgb(212 96 77); */
     color: #f06f52;
-    /* background-color: rgb(234, 201, 196); */
 }
 #deleteContainer .task {
     background-color: #f0a492;
@@ -170,7 +161,6 @@ p1, #resetBtn{
     flex-grow: 1;
     padding: 0px 30px 35px 30px;
     color: rgb(24, 24, 24);
-    /* transition: width 0.7s ease; */
 }
 
 
@@ -259,9 +249,19 @@ span {
     font-weight: bold;
 }
 
-#taskPopup.open, #clearPopup.open, #notepad.open{
+#taskPopup.open, #clearPopup.open{
     opacity: 1;
     z-index: 999;
+}
+
+#notepad.open {
+    opacity: 1;
+    z-index: 999;
+}
+
+#notepad.back {
+    opacity: 1;
+    z-index: -1;
 }
 
 #taskForm {
@@ -491,14 +491,9 @@ span {
     background: none;
     border: none;
     outline: none;
-    /* max-width: 80px; */
     width: 50px;
     
 }
-/* .timerControlBtn input:focus {
-    /* background-color: rgb(85, 115, 186); */
-    /* color: rgb(197 202 212); */
-/* }  */
 
 
 #startStop {
@@ -514,8 +509,6 @@ span {
 }
 
 #startStop.pause {
-    /* background-color: rgb(27, 59, 134);
-    border: 2px solid rgb(27, 59, 134); */
     box-shadow: none;
     transform: translateY(0px);
 }
