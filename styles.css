@@ -47,6 +47,7 @@ p1, #resetBtn{
     width: 70vw;
     height: 98vh;
     transition: ease .3s all, width 0.7s ease;
+    margin-left: auto;
 }
 
 #notepad textarea {
@@ -58,6 +59,7 @@ p1, #resetBtn{
     padding: 50px 30px 30px 45px;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
 }
 
 .category {
@@ -445,6 +447,7 @@ span {
 #timerTop{
     display: flex;
     justify-content: center;
+    font-variant-numeric: tabular-nums;
 }
 .timerAmt {
     display: flex;

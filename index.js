@@ -19,14 +19,19 @@ const timerReset = document.getElementById("timerReset");
 const clearPopup = document.getElementById("clearPopup");
 const quickNote = document.getElementById("quickNote");
 const notepad = document.getElementById("notepad");
+const myNote = document.getElementById("myNote");
+const clock = document.querySelector('#clock');
+const startStop = document.querySelector('#startStop');
+const timer = document.querySelector('#timer');
 
 const doTaskContainer = document.querySelector("#doTaskContainer");
 const scheduleTaskContainer = document.querySelector('#scheduleTaskContainer');
 const delegateTaskContainer = document.querySelector('#delegateTaskContainer');
 const deleteTaskContainer = document.querySelector('#deleteTaskContainer');
-const clock = document.querySelector('#clock');
-const startStop = document.querySelector('#startStop');
-const timer = document.querySelector('#timer');
+
+const ding = new Audio('sounds/ding.mp3');
+const button = new Audio('sounds/button.mp3');
+const pomoAlarm = new Audio('sounds/pomoAlarm.mp3');
 
 const pomoFocus = 25;
 const pomoShortBrk = 5;
@@ -37,6 +42,7 @@ doList = [];
 scheduleList = [];
 delegateList = [];
 deleteList = [];
+note = "";
 editing = null;
 
 function initialLoad() {
@@ -52,11 +58,18 @@ function initialLoad() {
     if (!localStorage.getItem("deleteList")) {
         localStorage.setItem("deleteList", JSON.stringify(deleteList));
     }
+    if (!localStorage.getItem("note")) {
+        localStorage.setItem("note", JSON.stringify(note));
+    }
     updateTime();
     updatePage();
     setPomo('focus');
 }
 initialLoad();
+
+myNote.addEventListener("input", () => {
+    localStorage.setItem("note", myNote.value);
+});
 
 
 function updatePage() {
@@ -65,7 +78,9 @@ function updatePage() {
     scheduleList = JSON.parse(localStorage.getItem("scheduleList"));
     delegateList = JSON.parse(localStorage.getItem("delegateList"));
     deleteList = JSON.parse(localStorage.getItem("deleteList"));
+    note = localStorage.getItem("note");
 
+    myNote.value = note;
     // scheduleTaskContainer.innerHTML = `<p1>hi</p1>`;
     let doInner = '';
     if (doList == "") {
@@ -201,7 +216,11 @@ function checkTask(list, index, event) {
     event.stopPropagation();
 
     let temp = JSON.parse(localStorage.getItem(list));
-    if (JSON.parse(temp[index].completed) == false) {temp[index].completed = true;}
+    if (JSON.parse(temp[index].completed) == false) {
+        temp[index].completed = true;
+        ding.currentTime = 0;
+        ding.play();
+    }
     else {temp[index].completed = false;}
 
     localStorage.setItem(list, JSON.stringify(temp));    
@@ -226,7 +245,6 @@ function deleteNoAnimation(list, index) {
     localStorage.setItem(list, JSON.stringify(temp));
     updatePage();
 }
-
 
 function addTask(event) {
     event.preventDefault(); // stops page refresh after form is submitted 
@@ -293,53 +311,20 @@ function addTask(event) {
     updatePage();
 }
 
-
-saveBtn.addEventListener("click", addTask)
-openBtn.addEventListener("click", () => {
-    taskPopup.classList.add("open");
-});
-cancelBtn.addEventListener("click", () => {
-    editing = null;
-    taskPopup.classList.remove("open");
-    formTitle.classList.remove("blank");
-    formTitle.placeholder = "Task";
-});
-formTitle.addEventListener("focus", () => {
-    formTitle.classList.remove("blank");
-})
-pomodoro.addEventListener("click", () => {
-    pomoMode.classList.add("open");
-    // sideWidget.classList.add("stretch");
-    sideContent.classList.add("stretch");
-    matrix.classList.add("shrink");
-    notepad.classList.add("shrink");
-});
-pomoExit.addEventListener("click", () => {
-    pomoMode.classList.remove("open");
-    // sideWidget.classList.remove("stretch");
-    sideContent.classList.remove("stretch");
-    matrix.classList.remove("shrink");
-    notepad.classList.remove("shrink");
-    startStop.innerHTML = 'Start';
-    startStop.classList.remove('running');
-    startStop.classList.remove('pause');
-})
-
-
 function updateTime() {
     const time = new Date();
     let h = time.getHours();
     let m = time.getMinutes();
     let s = time.getSeconds();
-    m = checkTime(m);
-    s = checkTime(s);
+    m = formatTime(m);
+    s = formatTime(s);
 
     let period = "AM";
     if (h > 12) {
         h = h % 12;
         period = "PM";
     }
-    h = checkTime(h);
+    h = formatTime(h);
 
     clock.innerHTML = `<div>${h}:${m}</div>
                         <div id="timeRight">
@@ -348,50 +333,10 @@ function updateTime() {
                         </div>`;
     setTimeout(() => {updateTime()}, 1000);
 }
-function checkTime(unit) {
-    if (unit < 10) {
-        unit = "0" + unit;
-    }
+function formatTime(unit) {
+    if (unit < 10) return `0${unit}`;
     return unit;
 }
-
-resetBtn.addEventListener("click", () => {
-    clearPopup.classList.add('open');
-})
-
-noClearBtn.addEventListener("click", () => {
-    clearPopup.classList.remove('open');
-});
-
-yesClearBtn.addEventListener("click", () => {
-    doList = [];
-    scheduleList = [];
-    delegateList = [];
-    deleteList = [];
-    editing = null;
-
-    localStorage.setItem("doList", JSON.stringify(doList));
-    localStorage.setItem("scheduleList", JSON.stringify(scheduleList));
-    localStorage.setItem("delegateList", JSON.stringify(delegateList));
-    localStorage.setItem("deleteList", JSON.stringify(deleteList));
-
-    updatePage();
-    clearPopup.classList.remove('open');
-})
-
-startStop.addEventListener("click", () => {
-    if (startStop.innerHTML == 'Start') {
-        startStop.innerHTML = 'Pause';
-        startStop.classList.add('running')
-    }
-    else {
-        startStop.innerHTML = 'Start';
-        startStop.classList.remove('running');
-    }
-
-    startStop.classList.toggle('pause');
-    updatePomo();
-})
 
 function setPomo(pomoType) {
     
@@ -405,19 +350,19 @@ function setPomo(pomoType) {
     let timerVal;
     
     if (pomoType == 'focus') {
-        min.textContent = focus.value;
+        min.textContent = formatTime(focus.value);
         focusContainer.classList.add('selected');
         shortBrkContainer.classList.remove('selected');
         longBrkContainer.classList.remove('selected');
     }
     else if (pomoType == 'shortBrk') {
-        min.textContent = shortBrk.value
+        min.textContent = formatTime(shortBrk.value);
         focusContainer.classList.remove('selected');
         shortBrkContainer.classList.add('selected');
         longBrkContainer.classList.remove('selected');
     }
     else if (pomoType == 'longBrk') {
-        min.textContent = longBrk.value;
+        min.textContent = formatTime(longBrk.value);
         focusContainer.classList.remove('selected');
         shortBrkContainer.classList.remove('selected');
         longBrkContainer.classList.add('selected');
@@ -427,13 +372,6 @@ function setPomo(pomoType) {
     startStop.classList.remove('running');
     startStop.classList.remove('pause');
 }
-
-timerReset.addEventListener("click", setPomo(curPomoSetting));
-
-
-
-
-
 
 function updatePomo() {
     if (!startStop.classList.contains('running')) return;
@@ -448,23 +386,102 @@ function updatePomo() {
     }
     else {s = s - 1;}
 
-    if (m < 10) min.textContent = `0${m}`;
-    else min.textContent = m;
-    if (s < 10) sec.textContent = `0${s}`;
-    else sec.textContent = s;
+    min.textContent = formatTime(m);
+    sec.textContent = formatTime(s);
+
+    if (m == 0 && s == 0) {
+        pomoAlarm.play();
+        startStop.innerHTML = 'Start';
+        startStop.classList.remove('running');
+        startStop.classList.remove('pause');
+        return;
+    }
 
     setTimeout(() => {updatePomo()}, 1000);
 }
 
+
+saveBtn.addEventListener("click", addTask)
+openBtn.addEventListener("click", () => {
+    taskPopup.classList.add("open");
+});
+cancelBtn.addEventListener("click", () => {
+    editing = null;
+    taskPopup.classList.remove("open");
+    formTitle.classList.remove("blank");
+    formTitle.placeholder = "Task";
+});
+formTitle.addEventListener("focus", () => {
+    formTitle.classList.remove("blank");
+});
+
+pomodoro.addEventListener("click", () => {
+    pomoMode.classList.add("open");
+    sideContent.classList.add("stretch");
+    matrix.classList.add("shrink");
+    notepad.classList.add("shrink");
+});
+pomoExit.addEventListener("click", () => {
+    pomoMode.classList.remove("open");
+    sideContent.classList.remove("stretch");
+    matrix.classList.remove("shrink");
+    notepad.classList.remove("shrink");
+});
+
+resetBtn.addEventListener("click", () => {
+    clearPopup.classList.add('open');
+});
+noClearBtn.addEventListener("click", () => {
+    clearPopup.classList.remove('open');
+});
+yesClearBtn.addEventListener("click", () => {
+    doList = [];
+    scheduleList = [];
+    delegateList = [];
+    deleteList = [];
+    editing = null;
+
+    localStorage.setItem("doList", JSON.stringify(doList));
+    localStorage.setItem("scheduleList", JSON.stringify(scheduleList));
+    localStorage.setItem("delegateList", JSON.stringify(delegateList));
+    localStorage.setItem("deleteList", JSON.stringify(deleteList));
+
+    updatePage();
+    clearPopup.classList.remove('open');
+});
+
+startStop.addEventListener("click", () => {
+    if (startStop.innerHTML == 'Start') {
+        startStop.innerHTML = 'Pause';
+        startStop.classList.add('running')
+    }
+    else {
+        startStop.innerHTML = 'Start';
+        startStop.classList.remove('running');
+    }
+
+    button.currentTime = 0;
+    button.play();
+
+    startStop.classList.toggle('pause');
+    updatePomo();
+});
+timerReset.addEventListener("click", () => {
+    startStop.innerHTML = 'Start';
+    startStop.classList.remove('running');
+    startStop.classList.remove('pause');
+    setPomo(curPomoSetting);
+});
+
 focus.addEventListener("change", () => {
     setPomo('focus');
-})
+});
 shortBrk.addEventListener("change", () => {
     setPomo('shortBrk');
-})
+});
 longBrk.addEventListener("change", () => {
     setPomo('longBrk');
-})
+});
 
 quickNote.addEventListener("click", () => {
     notepad.classList.toggle("open");
