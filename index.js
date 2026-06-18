@@ -81,7 +81,7 @@ function updatePage() {
     note = localStorage.getItem("note");
 
     myNote.value = note;
-    // scheduleTaskContainer.innerHTML = `<p1>hi</p1>`;
+    
     let doInner = '';
     if (doList == "") {
         doInner = `<p1>No tasks</p1>`;
